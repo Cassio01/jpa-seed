@@ -21,6 +21,22 @@ public class ClienteTeste {
 	
 	@SuppressWarnings("unchecked")
 	@Test
+	public void deveConsultarClienteComIdNome(){
+		deveSalvarCliente();
+		Query query = em.createQuery("SELECT new Cliente(c.id, c.nome) FROM Cliente c WHERE c.cpf =:cpf");
+		query.setParameter("cpf", CPF_PADRAO);
+		List<Cliente> clientes = query.getResultList();
+		
+		assertFalse("verifica se há registros na lista", clientes.isEmpty());
+		
+		for (Cliente cliente : clientes) {
+			assertNull("verifica que o cpf deve está null", cliente.getCpf());
+			cliente.setCpf(CPF_PADRAO);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
 	public void deveConsultarCPF(){
 		deveSalvarCliente();
 		
